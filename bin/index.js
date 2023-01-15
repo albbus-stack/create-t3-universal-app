@@ -9,7 +9,9 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const withNativewind = process.argv.includes("--with-nativewind");
+const args = process.argv.slice(2);
+const withNativewind = args.includes("--with-nativewind");
+const folder = args.filter((arg) => !arg.includes("--"))[0];
 
 const repoUrl = "https://github.com/chen-rn/CUA";
 
@@ -20,9 +22,17 @@ console.log(
     "  \\__|___/   \\___|\\___/_/ \\_\\\n"
 );
 
-console.log(chalk.green.bold("Enter the name of the project:"));
+if (!folder) {
+  console.log(chalk.green.bold("Enter the name of the project:"));
 
-rl.question("", (folderName) => {
+  rl.question("", (folderName) => {
+    setup(folderName);
+  });
+} else {
+  setup(folder);
+}
+
+const setup = (folderName) => {
   const gitSpinner = ora(
     chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
   ).start();
@@ -109,4 +119,4 @@ rl.question("", (folderName) => {
       }
     );
   });
-});
+};
