@@ -22,16 +22,6 @@ console.log(
     "  \\__|___/   \\___|\\___/_/ \\_\\\n"
 );
 
-if (!folder) {
-  console.log(chalk.green.bold("Enter the name of the project:"));
-
-  rl.question("", (folderName) => {
-    setup(folderName);
-  });
-} else {
-  setup(folder);
-}
-
 const setup = (folderName) => {
   const gitSpinner = ora(
     chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
@@ -120,3 +110,13 @@ const setup = (folderName) => {
     );
   });
 };
+
+if (!folder) {
+  console.log(chalk.green.bold("Enter the name of the project:"));
+
+  rl.question("", (folderName) => {
+    setup(folderName);
+  });
+} else {
+  setup(folder);
+}
