@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 
 const args = process.argv.slice(2);
 const withNativewind = args.includes("--with-nativewind");
-const folder = args.filter((arg) => !arg.includes("--"))[0];
+const folderArg = args.filter((arg) => !arg.includes("--"))[0];
 
 const repoUrl = "https://github.com/chen-rn/CUA";
 
@@ -67,28 +67,7 @@ const setup = (folderName) => {
             installSpinner.succeed();
 
             if (withNativewind) {
-              console.log(
-                chalk.green(`Installing tailwindcss in ${folderName}...`)
-              );
-              const tailwindSpinner = ora().start();
-              exec(
-                `cd ${folderName} && yarn add tailwindcss`,
-                (tailwindErr, tailwindStdout, tailwindStderr) => {
-                  if (tailwindErr) {
-                    tailwindSpinner.fail();
-                    console.error(
-                      chalk.red(`Failed to install tailwindcss: ${tailwindErr}`)
-                    );
-                    return;
-                  }
-                  tailwindSpinner.succeed();
-                  console.log(
-                    chalk.green(
-                      `Successfully installed tailwindcss in ${folderName}`
-                    )
-                  );
-                }
-              );
+              console.log("This has to be yet a thing :(");
             }
 
             console.log(
@@ -111,12 +90,12 @@ const setup = (folderName) => {
   });
 };
 
-if (!folder) {
+if (!folderArg) {
   console.log(chalk.green.bold("Enter the name of the project:"));
 
   rl.question("", (folderName) => {
     setup(folderName);
   });
 } else {
-  setup(folder);
+  setup(folderArg);
 }
