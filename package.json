@@ -1,8 +1,6 @@
 {
   "name": "create-t3-universal-app",
-  "bin": {
-    "create-t3-universal-app": "index.js"
-  },
+  "bin": "./bin/index.js",
   "version": "1.1.1",
   "description": "",
   "scripts": {
