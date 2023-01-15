@@ -8,3 +8,4 @@ This is a npx cli tool to create a cross-platform universal app using the [CUA](
 ```bash
 npx create-t3-universal-app <project-name>
 ```
+If you don't pass any project name a prompt will show up asking for one.
