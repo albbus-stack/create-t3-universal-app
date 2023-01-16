@@ -24,7 +24,7 @@ console.log(
 
 const setup = (folderName) => {
   const gitSpinner = ora(
-    chalk.green.bold(`\nCloning create-universal-app into ${folderName}`)
+    chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
   ).start();
 
   exec(`git clone ${repoUrl} ${folderName}`, (gitErr, gitStdout, gitStderr) => {
@@ -120,6 +120,8 @@ if (withNativewind) {
         console.log(chalk.red.bold("Please enter a valid folder name!"));
         return;
       }
+
+      console.log("\n");
       setup(folderName);
     });
   } else {
