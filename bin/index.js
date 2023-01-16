@@ -121,7 +121,7 @@ if (withNativewind) {
         return;
       }
 
-      console.log("\n");
+      console.log(" ");
       setup(folderName);
     });
   } else {
