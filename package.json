@@ -2,12 +2,23 @@
   "name": "create-t3-universal-app",
   "bin": "./bin/index.js",
   "version": "1.1.5",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "An npx cli tool to create a cross-platform universal app using the CUA (create-universal-app) template.",
+  "keywords": [
+    "create-universal-app",
+    "solito",
+    "create-t3-app",
+    "tamagui"
+  ],
   "author": "Alberto Del Buono Paolini",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albbus-stack/create-t3-universal-app"
+  },
+  "bugs": {
+    "url": "https://github.com/albbus-stack/create-t3-universal-app/issues"
+  },
+  "homepage": "https://github.com/albbus-stack/create-t3-universal-app#readme",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^5.2.0",
     "ora": "^6.1.2"
