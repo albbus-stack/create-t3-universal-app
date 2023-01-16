@@ -27,10 +27,10 @@ const setup = (folderName) => {
     chalk.green.bold(`\nCloning create-universal-app into ${folderName}`)
   ).start();
 
-  exec(`git clone ${repoUrl} ${folderName}`, (err, stdout, stderr) => {
-    if (err) {
+  exec(`git clone ${repoUrl} ${folderName}`, (gitErr, gitStdout, gitStderr) => {
+    if (gitErr) {
       gitSpinner.fail();
-      console.error(chalk.red.bold(`Failed to clone repository: ${err}`));
+      console.error(chalk.red.bold(`Failed to clone repository: ${gitErr}`));
       return;
     }
 
@@ -40,10 +40,10 @@ const setup = (folderName) => {
 
     exec(
       `cd ${folderName} && yarn set version stable && yarn config set nodeLinker node-modules`,
-      (installErr, installStdout, installStderr) => {
-        if (installErr) {
+      (setupErr, setupStdout, setupStderr) => {
+        if (setupErr) {
           yarnSetupSpinner.fail();
-          console.error(chalk.red.bold(`Failed to setup yarn: ${installErr}`));
+          console.error(chalk.red.bold(`Failed to setup yarn: ${setupErr}`));
           return;
         }
 
@@ -85,10 +85,6 @@ const setup = (folderName) => {
 
                 prismaSpinner.succeed();
 
-                if (withNativewind) {
-                  console.log("This has to be yet a thing :(");
-                }
-
                 console.log(
                   chalk.yellow(
                     "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables.\n2. Entering your Clerk frontend api in ./packages/app/provider/auth/index.tsx.\n"
@@ -111,16 +107,22 @@ const setup = (folderName) => {
   });
 };
 
-if (!folderArg) {
-  console.log(chalk.green.bold("Enter the name of the project:"));
-
-  rl.question("> ", (folderName) => {
-    if (folderName === "" || folderName.includes(" ")) {
-      console.log(chalk.red.bold("Please enter a valid folder name!"));
-      return;
-    }
-    setup(folderName);
-  });
+if (withNativewind) {
+  console.log(
+    chalk.red.bold("The Nativewind implementation has yet to be a thing :(")
+  );
 } else {
-  setup(folderArg);
+  if (!folderArg) {
+    console.log(chalk.green.bold("Enter the name of the project:"));
+
+    rl.question("> ", (folderName) => {
+      if (folderName === "" || folderName.includes(" ")) {
+        console.log(chalk.red.bold("Please enter a valid folder name!"));
+        return;
+      }
+      setup(folderName);
+    });
+  } else {
+    setup(folderArg);
+  }
 }
