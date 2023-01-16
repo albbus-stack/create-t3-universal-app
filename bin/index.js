@@ -87,7 +87,7 @@ const setup = (folderName) => {
 
                 console.log(
                   chalk.yellow(
-                    "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables.\n2. Entering your Clerk frontend api in ./packages/app/provider/auth/index.tsx.\n"
+                    "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
                   )
                 );
 
