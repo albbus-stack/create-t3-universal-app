@@ -30,7 +30,7 @@ const setup = (folderName) => {
   exec(`git clone ${repoUrl} ${folderName}`, (err, stdout, stderr) => {
     if (err) {
       gitSpinner.fail();
-      console.error(chalk.red(`Failed to clone repository: ${err}`));
+      console.error(chalk.red.bold(`Failed to clone repository: ${err}`));
       return;
     }
 
@@ -43,7 +43,7 @@ const setup = (folderName) => {
       (installErr, installStdout, installStderr) => {
         if (installErr) {
           yarnSetupSpinner.fail();
-          console.error(chalk.red(`Failed to setup yarn: ${installErr}`));
+          console.error(chalk.red.bold(`Failed to setup yarn: ${installErr}`));
           return;
         }
 
@@ -59,30 +59,51 @@ const setup = (folderName) => {
             if (installErr) {
               installSpinner.fail();
               console.error(
-                chalk.red(`Failed to install dependencies: ${installErr}`)
+                chalk.red.bold(`Failed to install dependencies: ${installErr}`)
               );
               return;
             }
 
             installSpinner.succeed();
 
-            if (withNativewind) {
-              console.log("This has to be yet a thing :(");
-            }
+            const prismaSpinner = ora(
+              chalk.green.bold(`Generating prisma client`)
+            ).start();
 
-            console.log(
-              chalk.yellow(
-                "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables.\n2. Entering your Clerk frontend api in ./packages/app/provider/auth/index.tsx.\n"
-              )
+            exec(
+              `cd ${folderName} && yarn generate`,
+              (prismaErr, prismaStdout, prismaStderr) => {
+                if (prismaErr) {
+                  prismaSpinner.fail();
+                  console.error(
+                    chalk.red.bold(
+                      `Failed to generate prisma client: ${prismaErr}`
+                    )
+                  );
+                  return;
+                }
+
+                prismaSpinner.succeed();
+
+                if (withNativewind) {
+                  console.log("This has to be yet a thing :(");
+                }
+
+                console.log(
+                  chalk.yellow(
+                    "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables.\n2. Entering your Clerk frontend api in ./packages/app/provider/auth/index.tsx.\n"
+                  )
+                );
+
+                console.log(
+                  chalk.green.bold(
+                    "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
+                  )
+                );
+
+                rl.close();
+              }
             );
-
-            console.log(
-              chalk.green.bold(
-                "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
-              )
-            );
-
-            rl.close();
           }
         );
       }
@@ -94,6 +115,10 @@ if (!folderArg) {
   console.log(chalk.green.bold("Enter the name of the project:"));
 
   rl.question("", (folderName) => {
+    if (folderName === "" || folderName.includes(" ")) {
+      console.log(chalk.red.bold("Please enter a valid folder name!"));
+      return;
+    }
     setup(folderName);
   });
 } else {
