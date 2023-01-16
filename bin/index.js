@@ -24,7 +24,7 @@ console.log(
 
 const setup = (folderName) => {
   const gitSpinner = ora(
-    chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
+    chalk.green.bold(`\nCloning create-universal-app into ${folderName}`)
   ).start();
 
   exec(`git clone ${repoUrl} ${folderName}`, (err, stdout, stderr) => {
@@ -114,7 +114,7 @@ const setup = (folderName) => {
 if (!folderArg) {
   console.log(chalk.green.bold("Enter the name of the project:"));
 
-  rl.question("", (folderName) => {
+  rl.question("> ", (folderName) => {
     if (folderName === "" || folderName.includes(" ")) {
       console.log(chalk.red.bold("Please enter a valid folder name!"));
       return;
