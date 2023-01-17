@@ -1,5 +1,8 @@
 # create-t3-universal-app
 
+![js](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![npm](https://img.shields.io/npm/dw/create-t3-universal-app?color=red&label=npm&labelColor=black&logo=npm&logoColor=red&style=flat-square)
+
 This is a npx cli tool to create a cross-platform universal app using the [CUA](
 <https://github.com/chen-rn/CUA>) (create-universal-app) template.
 
