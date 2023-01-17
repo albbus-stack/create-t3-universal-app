@@ -97,7 +97,7 @@ const setup = (folderName) => {
                   )
                 );
 
-                rl.close();
+                return;
               }
             );
           }
@@ -118,11 +118,11 @@ if (withNativewind) {
     rl.question("> ", (folderName) => {
       if (folderName === "" || folderName.includes(" ")) {
         console.log(chalk.red.bold("Please enter a valid folder name!"));
-        return;
+      } else {
+        console.log(" ");
+        setup(folderName);
       }
-
-      console.log(" ");
-      setup(folderName);
+      rl.close();
     });
   } else {
     setup(folderArg);
