@@ -14,4 +14,4 @@ This is currently live on npm [here](<https://www.npmjs.com/package/create-t3-un
 npx create-t3-universal-app <project-name>
 ```
 
-If you don't pass any project name a prompt will show up asking for one.
+If you don't pass any project name a prompt will show up asking for one. You can also pass the `--with-expo-router` flag to clone the [Expo Router version](<https://github.com/chen-rn/CUA/tree/expo-router>) of CUA.

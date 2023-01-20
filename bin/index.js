@@ -11,9 +11,13 @@ const rl = readline.createInterface({
 
 const args = process.argv.slice(2);
 const withNativewind = args.includes("--with-nativewind");
+const withExpoRouter = args.includes("--with-expo-router");
 const folderArg = args.filter((arg) => !arg.includes("--"))[0];
 
-const repoUrl = "https://github.com/chen-rn/CUA";
+let repoUrl = "https://github.com/chen-rn/CUA";
+if (withExpoRouter) {
+  repoUrl = "https://github.com/chen-rn/CUA/tree/expo-router";
+}
 
 console.log(
   "  _   ____    ___ _   _  _   \n" +
