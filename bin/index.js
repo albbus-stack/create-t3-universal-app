@@ -40,70 +40,53 @@ const setup = (folderName) => {
 
     gitSpinner.succeed();
 
-    const yarnSetupSpinner = ora(chalk.green.bold(`Setting up yarn`)).start();
+    const installSpinner = ora(
+      chalk.green.bold(`Installing dependencies`)
+    ).start();
 
     exec(
-      `cd ${folderName} && yarn set version stable && yarn config set nodeLinker node-modules`,
-      (setupErr, setupStdout, setupStderr) => {
-        if (setupErr) {
-          yarnSetupSpinner.fail();
-          console.error(chalk.red.bold(`Failed to setup yarn: ${setupErr}`));
+      `cd ${folderName} && yarn install`,
+      (installErr, installStdout, installStderr) => {
+        if (installErr) {
+          installSpinner.fail();
+          console.error(
+            chalk.red.bold(`Failed to install dependencies: ${installErr}`)
+          );
           return;
         }
 
-        yarnSetupSpinner.succeed();
+        installSpinner.succeed();
 
-        const installSpinner = ora(
-          chalk.green.bold(`Installing dependencies`)
+        const prismaSpinner = ora(
+          chalk.green.bold(`Generating prisma client`)
         ).start();
 
         exec(
-          `cd ${folderName} && yarn install`,
-          (installErr, installStdout, installStderr) => {
-            if (installErr) {
-              installSpinner.fail();
+          `cd ${folderName} && yarn generate`,
+          (prismaErr, prismaStdout, prismaStderr) => {
+            if (prismaErr) {
+              prismaSpinner.fail();
               console.error(
-                chalk.red.bold(`Failed to install dependencies: ${installErr}`)
+                chalk.red.bold(`Failed to generate prisma client: ${prismaErr}`)
               );
               return;
             }
 
-            installSpinner.succeed();
+            prismaSpinner.succeed();
 
-            const prismaSpinner = ora(
-              chalk.green.bold(`Generating prisma client`)
-            ).start();
-
-            exec(
-              `cd ${folderName} && yarn generate`,
-              (prismaErr, prismaStdout, prismaStderr) => {
-                if (prismaErr) {
-                  prismaSpinner.fail();
-                  console.error(
-                    chalk.red.bold(
-                      `Failed to generate prisma client: ${prismaErr}`
-                    )
-                  );
-                  return;
-                }
-
-                prismaSpinner.succeed();
-
-                console.log(
-                  chalk.yellow(
-                    "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
-                  )
-                );
-
-                console.log(
-                  chalk.green.bold(
-                    "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
-                  )
-                );
-
-                return;
-              }
+            console.log(
+              chalk.yellow(
+                "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
+              )
             );
+
+            console.log(
+              chalk.green.bold(
+                "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
+              )
+            );
+
+            return;
           }
         );
       }
