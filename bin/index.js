@@ -86,7 +86,7 @@ const setup = (folderName) => {
               )
             );
 
-            return;
+            rl.close();
           }
         );
       }
