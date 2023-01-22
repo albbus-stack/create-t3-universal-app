@@ -16,7 +16,8 @@ const folderArg = args.filter((arg) => !arg.includes("--"))[0];
 
 let repoUrl = "https://github.com/chen-rn/CUA";
 if (withExpoRouter) {
-  repoUrl = "https://github.com/chen-rn/CUA/tree/expo-router";
+  repoUrl =
+    "--single-branch --branch expo-router https://github.com/chen-rn/CUA/";
 }
 
 console.log(
