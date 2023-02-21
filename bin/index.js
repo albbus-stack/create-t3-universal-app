@@ -11,9 +11,13 @@ const rl = readline.createInterface({
 
 const args = process.argv.slice(2);
 const withNativewind = args.includes("--with-nativewind");
+const withSupabase = args.includes("--with-supabase");
 const folderArg = args.filter((arg) => !arg.includes("--"))[0];
 
 let repoUrl = "https://github.com/chen-rn/CUA";
+if (withSupabase) {
+  repoUrl = "--single-branch --branch supabase https://github.com/chen-rn/CUA/";
+}
 
 console.log(
   "  _   ____    ___ _   _  _   \n" +

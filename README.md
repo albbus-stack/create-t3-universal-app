@@ -11,7 +11,9 @@ This is currently live on npm [here](<https://www.npmjs.com/package/create-t3-un
 ## Usage
 
 ```bash
-npx create-t3-universal-app <project-name>
+npx create-t3-universal-app <project-name> [--flags]
 ```
 
 If you don't pass any project name a prompt will show up asking for one. This is up to date with the latest version of CUA using Expo Router.
+
+You can also pass the `--with-supabase` flag to clone the [Supabase version](<https://github.com/chen-rn/CUA/tree/supabase>) of CUA.
