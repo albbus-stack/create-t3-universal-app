@@ -15,8 +15,10 @@ const withSupabase = args.includes("--with-supabase");
 const folderArg = args.filter((arg) => !arg.includes("--"))[0];
 
 let repoUrl = "https://github.com/chen-rn/CUA";
+
+let repoBranch = "";
 if (withSupabase) {
-  repoUrl = "--single-branch --branch supabase https://github.com/chen-rn/CUA/";
+  repoBranch = "--single-branch --branch supabase";
 }
 
 console.log(
@@ -31,67 +33,72 @@ const setup = (folderName) => {
     chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
   ).start();
 
-  exec(`git clone ${repoUrl} ${folderName}`, (gitErr, gitStdout, gitStderr) => {
-    if (gitErr) {
-      gitSpinner.fail();
-      console.error(chalk.red.bold(`Failed to clone repository: ${gitErr}`));
-      return;
-    }
-
-    gitSpinner.succeed();
-
-    const installSpinner = ora(
-      chalk.green.bold(`Installing dependencies`)
-    ).start();
-
-    exec(
-      `cd ${folderName} && yarn install`,
-      (installErr, installStdout, installStderr) => {
-        if (installErr) {
-          installSpinner.fail();
-          console.error(
-            chalk.red.bold(`Failed to install dependencies: ${installErr}`)
-          );
-          return;
-        }
-
-        installSpinner.succeed();
-
-        const prismaSpinner = ora(
-          chalk.green.bold(`Generating prisma client`)
-        ).start();
-
-        exec(
-          `cd ${folderName} && yarn generate`,
-          (prismaErr, prismaStdout, prismaStderr) => {
-            if (prismaErr) {
-              prismaSpinner.fail();
-              console.error(
-                chalk.red.bold(`Failed to generate prisma client: ${prismaErr}`)
-              );
-              return;
-            }
-
-            prismaSpinner.succeed();
-
-            console.log(
-              chalk.yellow(
-                "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
-              )
-            );
-
-            console.log(
-              chalk.green.bold(
-                "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
-              )
-            );
-
-            rl.close();
-          }
-        );
+  exec(
+    `git clone ${repoUrl} ${folderName} ${repoBranch}`,
+    (gitErr, gitStdout, gitStderr) => {
+      if (gitErr) {
+        gitSpinner.fail();
+        console.error(chalk.red.bold(`Failed to clone repository: ${gitErr}`));
+        return;
       }
-    );
-  });
+
+      gitSpinner.succeed();
+
+      const installSpinner = ora(
+        chalk.green.bold(`Installing dependencies`)
+      ).start();
+
+      exec(
+        `cd ${folderName} && yarn install`,
+        (installErr, installStdout, installStderr) => {
+          if (installErr) {
+            installSpinner.fail();
+            console.error(
+              chalk.red.bold(`Failed to install dependencies: ${installErr}`)
+            );
+            return;
+          }
+
+          installSpinner.succeed();
+
+          const prismaSpinner = ora(
+            chalk.green.bold(`Generating prisma client`)
+          ).start();
+
+          exec(
+            `cd ${folderName} && yarn generate`,
+            (prismaErr, prismaStdout, prismaStderr) => {
+              if (prismaErr) {
+                prismaSpinner.fail();
+                console.error(
+                  chalk.red.bold(
+                    `Failed to generate prisma client: ${prismaErr}`
+                  )
+                );
+                return;
+              }
+
+              prismaSpinner.succeed();
+
+              console.log(
+                chalk.yellow(
+                  "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
+                )
+              );
+
+              console.log(
+                chalk.green.bold(
+                  "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
+                )
+              );
+
+              rl.close();
+            }
+          );
+        }
+      );
+    }
+  );
 };
 
 if (withNativewind) {
