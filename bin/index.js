@@ -18,7 +18,7 @@ let repoUrl = "https://github.com/chen-rn/CUA";
 
 let repoBranch = "";
 if (withSupabase) {
-  repoBranch = "--single-branch --branch supabase";
+  repoBranch = "-b supabase --single-branch";
 }
 
 console.log(
@@ -34,7 +34,7 @@ const setup = (folderName) => {
   ).start();
 
   exec(
-    `git clone ${repoUrl} ${folderName} ${repoBranch}`,
+    `git clone ${repoBranch} ${repoUrl} ${folderName}`,
     (gitErr, gitStdout, gitStderr) => {
       if (gitErr) {
         gitSpinner.fail();
