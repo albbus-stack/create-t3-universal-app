@@ -55,66 +55,72 @@ const setup = (folderName) => {
     chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
   ).start();
 
-  exec(`git clone ${repoBranch} ${repoUrl} ${folderName}`, (gitErr) => {
-    console.log(`\ngit clone ${repoBranch} ${repoUrl} ${folderName}`);
-    if (gitErr) {
-      gitSpinner.fail();
-      console.error(
-        chalk.red.bold(`Failed to clone repository: ${gitErr.message}`)
-      );
-      return;
-    }
-
-    gitSpinner.succeed();
-
-    const installSpinner = ora(
-      chalk.green.bold(`Installing dependencies`)
-    ).start();
-
-    exec(`cd ${folderName} && yarn install`, (installErr) => {
-      if (installErr) {
-        installSpinner.fail();
+  exec(
+    `git clone ${repoBranch} ${repoUrl} ${folderName}`,
+    (gitErr, gitStdout, gitStdErr) => {
+      if (gitErr) {
+        gitSpinner.fail();
         console.error(
-          chalk.red.bold(
-            `Failed to install dependencies: ${installErr.message}`
-          )
+          chalk.red.bold(`Failed to clone repository: ${gitErr.message}`)
         );
         return;
       }
 
-      installSpinner.succeed();
+      console.log("\n" + `git clone ${repoBranch} ${repoUrl} ${folderName}`);
+      console.log("\n" + gitStdout);
+      console.log("\n" + gitStdErr);
 
-      const prismaSpinner = ora(
-        chalk.green.bold(`Generating prisma client`)
+      gitSpinner.succeed();
+
+      const installSpinner = ora(
+        chalk.green.bold(`Installing dependencies`)
       ).start();
 
-      exec(`cd ${folderName} && yarn generate`, (prismaErr) => {
-        if (prismaErr) {
-          prismaSpinner.fail();
+      exec(`cd ${folderName} && yarn install`, (installErr) => {
+        if (installErr) {
+          installSpinner.fail();
           console.error(
             chalk.red.bold(
-              `Failed to generate prisma client: ${prismaErr.message}`
+              `Failed to install dependencies: ${installErr.message}`
             )
           );
           return;
         }
 
-        prismaSpinner.succeed();
+        installSpinner.succeed();
 
-        console.log(
-          chalk.yellow(
-            "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
-          )
-        );
+        const prismaSpinner = ora(
+          chalk.green.bold(`Generating prisma client`)
+        ).start();
 
-        console.log(
-          chalk.green.bold(
-            "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
-          )
-        );
+        exec(`cd ${folderName} && yarn generate`, (prismaErr) => {
+          if (prismaErr) {
+            prismaSpinner.fail();
+            console.error(
+              chalk.red.bold(
+                `Failed to generate prisma client: ${prismaErr.message}`
+              )
+            );
+            return;
+          }
 
-        rl.close();
+          prismaSpinner.succeed();
+
+          console.log(
+            chalk.yellow(
+              "\n🚧 Remember to set up your environment variables properly by:\n1. Duplicating the .env.example file, removing .example, and entering your variables\n2. Entering your Clerk frontend api in /packages/app/provider/auth/index.tsx\n"
+            )
+          );
+
+          console.log(
+            chalk.green.bold(
+              "🚀 Successfully created CUA project! After having filled out your .env, run 'yarn db-push' to create your database tables or 'yarn web' to start the web development server."
+            )
+          );
+
+          rl.close();
+        });
       });
-    });
-  });
+    }
+  );
 };

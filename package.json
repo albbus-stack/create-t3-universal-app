@@ -1,7 +1,7 @@
 {
   "name": "create-t3-universal-app",
   "bin": "./bin/index.js",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "description": "An npx cli tool to create a cross-platform universal app using the CUA (create-universal-app) template.",
   "keywords": [
     "create-universal-app",
