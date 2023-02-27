@@ -56,6 +56,7 @@ const setup = (folderName) => {
   ).start();
 
   exec(`git clone ${repoBranch} ${repoUrl} ${folderName}`, (gitErr) => {
+    console.log(`\ngit clone ${repoBranch} ${repoUrl} ${folderName}`);
     if (gitErr) {
       gitSpinner.fail();
       console.error(
