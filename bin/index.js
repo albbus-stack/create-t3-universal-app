@@ -66,10 +66,6 @@ const setup = (folderName) => {
         return;
       }
 
-      console.log("\n" + `git clone ${repoBranch} ${repoUrl} ${folderName}`);
-      console.log("\n" + gitStdout);
-      console.log("\n" + gitStdErr);
-
       gitSpinner.succeed();
 
       const installSpinner = ora(
