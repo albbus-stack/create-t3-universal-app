@@ -27,29 +27,6 @@ if (withNativewind) {
   );
 }
 
-console.log(
-  "  _   ____    ___ _   _  _   \n" +
-    " | |_|__ /   / __| | | |/_\\ \n" +
-    " |  _||_ \\  | (__| |_| / _ \\\n" +
-    "  \\__|___/   \\___|\\___/_/ \\_\\\n"
-);
-
-if (!folderArg) {
-  console.log(chalk.green.bold("Enter the name of the project:"));
-
-  rl.question("> ", (folderName) => {
-    if (folderName === "" || folderName.includes(" ")) {
-      console.log(chalk.red.bold("Please enter a valid folder name!"));
-    } else {
-      console.log(" ");
-      setup(folderName);
-    }
-    rl.close();
-  });
-} else {
-  setup(folderArg);
-}
-
 const setup = (folderName) => {
   const gitSpinner = ora(
     chalk.green.bold(`Cloning create-universal-app into ${folderName}`)
@@ -120,3 +97,26 @@ const setup = (folderName) => {
     }
   );
 };
+
+console.log(
+  "  _   ____    ___ _   _  _   \n" +
+    " | |_|__ /   / __| | | |/_\\ \n" +
+    " |  _||_ \\  | (__| |_| / _ \\\n" +
+    "  \\__|___/   \\___|\\___/_/ \\_\\\n"
+);
+
+if (!folderArg) {
+  console.log(chalk.green.bold("Enter the name of the project:"));
+
+  rl.question("> ", (folderName) => {
+    if (folderName === "" || folderName.includes(" ")) {
+      console.log(chalk.red.bold("Please enter a valid folder name!"));
+    } else {
+      console.log(" ");
+      setup(folderName);
+    }
+    rl.close();
+  });
+} else {
+  setup(folderArg);
+}
