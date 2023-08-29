@@ -3,6 +3,10 @@
 ![js](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![npm](https://img.shields.io/npm/dw/create-t3-universal-app?color=red&label=npm&labelColor=black&logo=npm&logoColor=red&style=flat-square)
 
+<p align="center">
+  <b>⚠&nbsp; This repo has been moved under the <a href="https://github.com/timothymiller/t4-app/tree/main/apps/cli">t4-app</a> monorepo &nbsp;⚠</b>
+</p>
+
 This is a npx cli tool to create a cross-platform universal app using the [CUA](
 <https://github.com/chen-rn/CUA>) (create-universal-app) template.
 
